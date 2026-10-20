@@ -1770,9 +1770,6 @@ section {
     color: #FFF8F5;
 }
 
-
-
-
 /* RESPONSIVE STYLES */
 
 /* Tablet */
@@ -1920,6 +1917,7 @@ section {
         height: 22px;
         flex-shrink: 0;
 }
+    
 /* GENERAL MOBILE LAYOUT — max-width: 700px */
 @media (max-width: 700px) {
     .hero {
@@ -1941,9 +1939,15 @@ section {
     }
 
     .button-primary {
-        width: 100%;
-        max-width: 320px;
-    }
+        display: inline-flex;
+        width: fit-content;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        align-self: flex-start;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 16px 20px;
 }
 
 /* GENERAL MOBILE LAYOUT — max-width: 700px */
