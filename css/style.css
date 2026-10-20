@@ -1880,6 +1880,27 @@ section {
     }
 }
 
+/* SKINMATCH INTRO BUTTON - MOBILE FIX */
+@media screen and (max-width: 600px) {
+    .intro-button {
+        display: inline-flex;
+        width: auto;
+        max-width: 100%;
+        box-sizing: border-box;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px 16px;
+        font-size: 12px;
+        letter-spacing: 1.2px;
+    }
+
+    .intro-button-arrow {
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+    }
+}
 /* GENERAL MOBILE LAYOUT — max-width: 700px */
 @media (max-width: 700px) {
     .hero {
