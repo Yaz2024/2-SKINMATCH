@@ -157,6 +157,12 @@ section {
     border: 1px solid rgba(73, 53, 47, 0.6);
     border-radius: 50%;
     font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    color: inherit;
+    flex-shrink: 0;
 }
 .header-cta:hover {
     background-color: #49352f;
@@ -233,6 +239,11 @@ section {
     border: 1px solid rgba(255, 250, 247, 0.6);
     border-radius: 50%;
     font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    flex-shrink: 0;
 }
 
 /* HERO BUTTON HOVER EFFECT */
