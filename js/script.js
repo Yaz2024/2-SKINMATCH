@@ -95,13 +95,38 @@ const ingredientCarousel = document.querySelector("#ingredients-carousel");
 const previousButton = document.querySelector("#ingredients-prev");
 const nextButton = document.querySelector("#ingredients-next");
 
+
 previousButton.addEventListener("click", function () {
-    ingredientCarousel.scrollBy({ left: -260, behavior: "smooth" });
+    const card = ingredientCarousel.querySelector(".ingredient-card");
+    if (!card) return;
+
+    const cardWidth = card.getBoundingClientRect().width;
+    const gap = parseFloat(getComputedStyle(ingredientCarousel).gap) || 0;
+    const step = cardWidth + gap;
+
+    ingredientCarousel.scrollBy({
+        left: -step,
+        behavior: "smooth"
+    });
 });
 
 nextButton.addEventListener("click", function () {
-    ingredientCarousel.scrollBy({ left: 260, behavior: "smooth" });
+    const card = ingredientCarousel.querySelector(".ingredient-card");
+    if (!card) return;
+
+    const cardWidth = card.getBoundingClientRect().width;
+    const gap = parseFloat(getComputedStyle(ingredientCarousel).gap) || 0;
+    const step = cardWidth + gap;
+    const maxScroll = ingredientCarousel.scrollWidth - ingredientCarousel.clientWidth;
+
+    if (ingredientCarousel.scrollLeft >= maxScroll - 2) return;
+
+    ingredientCarousel.scrollTo({
+        left: Math.min(ingredientCarousel.scrollLeft + step, maxScroll),
+        behavior: "smooth"
+    });
 });
+
 
 // Enlarge ingredients pics
 const ingredientImages = document.querySelectorAll(".ingredient-image");
