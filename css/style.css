@@ -1953,35 +1953,62 @@ section {
         letter-spacing: 1px;
 }
 }
+
 /* GENERAL MOBILE LAYOUT — max-width: 700px */
 @media (max-width: 700px) {
     .carousel-container {
         gap: 5px;
     }
+
+    .ingredients-carousel {
+        flex: 1 1 0;
+        width: 0;
+        min-width: 0;
+        gap: 0;
+        padding: 10px 0 16px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-padding: 0;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .ingredients-carousel::-webkit-scrollbar {
+        display: none;
+    }
+
     .ingredients-carousel .ingredient-card {
-        flex-basis: 100px;
+        flex: 0 0 100%;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 12px;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
     }
 
-    .ingredient-image {
-        height: 160px;
+    .ingredients-carousel .ingredient-image {
+        display: block;
+        width: 100%;
+        height: clamp(170px, 55vw, 250px);
+        object-fit: cover;
+        margin-bottom: 14px;
     }
 
-    
-.carousel-button {
-    width: 30px;
-    height: 30px;
-    flex-shrink: 0;
-    border: 1px solid #d8bcb4;
-    border-radius: 50%;
-    background: #ead1d0;
-    color: #49352f;
-    font-family: Arial, sans-serif;
-    font-size: 20px;
-    font-weight: normal;
-    font-style: normal;
-    line-height: 1;
-    cursor: pointer;
-
+    .ingredients-section .carousel-button {
+        width: 30px;
+        height: 30px;
+        flex: 0 0 30px;
+        padding: 0;
+        border: 1px solid #d8bcb4;
+        border-radius: 50%;
+        background: #ead1d0;
+        color: #49352f;
+        font-family: Arial, sans-serif;
+        font-size: 20px;
+        line-height: 1;
+        cursor: pointer;
     }
 }
 
