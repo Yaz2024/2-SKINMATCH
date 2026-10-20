@@ -1952,7 +1952,7 @@ section {
         font-size: 10px;
         letter-spacing: 1px;
 }
-
+}
 /* GENERAL MOBILE LAYOUT — max-width: 700px */
 @media (max-width: 700px) {
     .carousel-container {
