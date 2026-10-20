@@ -90,43 +90,38 @@ retakeButton.addEventListener("click", function () {
     form.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
-//ingredietns arrows
+// Ingredients carousel arrows
 const ingredientCarousel = document.querySelector("#ingredients-carousel");
 const previousButton = document.querySelector("#ingredients-prev");
 const nextButton = document.querySelector("#ingredients-next");
 
+function moveToIngredient(direction) {
+    const cards = ingredientCarousel.querySelectorAll(".ingredient-card");
+    if (!cards.length) return;
 
-previousButton.addEventListener("click", function () {
-    const card = ingredientCarousel.querySelector(".ingredient-card");
-    if (!card) return;
+    const currentScroll = ingredientCarousel.scrollLeft;
+    let targetCard;
 
-    const cardWidth = card.getBoundingClientRect().width;
-    const gap = parseFloat(getComputedStyle(ingredientCarousel).gap) || 0;
-    const step = cardWidth + gap;
-
-    ingredientCarousel.scrollBy({
-        left: -step,
-        behavior: "smooth"
-    });
-});
-
-nextButton.addEventListener("click", function () {
-    const card = ingredientCarousel.querySelector(".ingredient-card");
-    if (!card) return;
-
-    const cardWidth = card.getBoundingClientRect().width;
-    const gap = parseFloat(getComputedStyle(ingredientCarousel).gap) || 0;
-    const step = cardWidth + gap;
-    const maxScroll = ingredientCarousel.scrollWidth - ingredientCarousel.clientWidth;
-
-    if (ingredientCarousel.scrollLeft >= maxScroll - 2) return;
+    if (direction === "next") {
+        targetCard = [...cards].find(card =>
+            card.offsetLeft > currentScroll + 5
+        );
+        if (!targetCard) return;
+    } else {
+        targetCard = [...cards].filter(card =>
+            card.offsetLeft < currentScroll - 5
+        ).pop();
+        if (!targetCard) return;
+    }
 
     ingredientCarousel.scrollTo({
-        left: Math.min(ingredientCarousel.scrollLeft + step, maxScroll),
+        left: targetCard.offsetLeft,
         behavior: "smooth"
     });
-});
+}
 
+previousButton.addEventListener("click", () => moveToIngredient("prev"));
+nextButton.addEventListener("click", () => moveToIngredient("next"));
 
 // Enlarge ingredients pics
 const ingredientImages = document.querySelectorAll(".ingredient-image");
