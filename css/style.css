@@ -1,4 +1,4 @@
-/* GENERAL STYLES */
+*GENERALS */
 
 * {
     box-sizing: border-box;
@@ -476,7 +476,7 @@ section {
     font-size: 15px;
     line-height: 1.5;
     transition: background-color 0.2s ease,
-                border-color 0.2s ease;
+    border-color 0.2s ease;
 }
 
 .option-card:hover span {
@@ -687,7 +687,7 @@ section {
 .carousel-container {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
 }
 
 .ingredients-carousel {
@@ -721,11 +721,12 @@ section {
 }
 
 .ingredients-carousel .ingredient-card {
-    flex: 0 0 240px;
+    flex: 0 0 220px;
     min-width: 0;
     scroll-snap-align: start;
     padding: 15px;
     background: white;
+    overflow: visible;
 }
 
 .ingredient-image {
@@ -734,16 +735,21 @@ section {
     display: block;
     object-fit: cover;
     cursor: pointer;
+    position: relative;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+    margin-bottom: 14px;
+
 }
 
-.ingredient-image.image-enlarged {
-    position: relative;
-    z-index: 2;
+.ingredient-image:hover {
+    transform: scale(1.12);
+    z-index: 10;
 }
 
 .carousel-button {
-    width: 38px;
-    height: 38px;
+    width: 44px;
+    height: 44px;
     flex-shrink: 0;
     border: 1px solid #d8bcb4;
     border-radius: 50%;
@@ -1861,19 +1867,30 @@ section {
     .carousel-container {
         gap: 5px;
     }
-
     .ingredients-carousel .ingredient-card {
-        flex-basis: 200px;
+        flex-basis: 100px;
     }
 
     .ingredient-image {
         height: 160px;
     }
 
-    .carousel-button {
-        width: 30px;
-        height: 30px;
-        font-size: 20px;
+    
+.carousel-button {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border: 1px solid #d8bcb4;
+    border-radius: 50%;
+    background: #ead1d0;
+    color: #49352f;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    cursor: pointer;
+
     }
 }
 
