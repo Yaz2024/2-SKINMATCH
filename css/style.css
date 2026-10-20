@@ -1938,16 +1938,19 @@ section {
         height: 320px;
     }
 
+   
     .button-primary {
         display: inline-flex;
-        width: fit-content;
-        max-width: 100%;
+        width: auto;
+        max-width: max-content;
         min-width: 0;
         box-sizing: border-box;
         align-self: flex-start;
-        justify-content: space-between;
-        gap: 18px;
-        padding: 16px 20px;
+        justify-content: center;
+        gap: 12px;
+        padding: 12px 15px;
+        font-size: 10px;
+        letter-spacing: 1px;
 }
 
 /* GENERAL MOBILE LAYOUT — max-width: 700px */
