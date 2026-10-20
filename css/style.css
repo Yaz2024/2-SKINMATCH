@@ -385,9 +385,31 @@ section {
     height: 22px;
     border: 1px solid #fffaf7;
     border-radius: 50%;
-    font-size: 13px;
+    position: relative;
+    font-size: 0;
+}
+.intro-button-arrow::before {
+    content: "";
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-top: 1.5px solid currentColor;
+    border-right: 1.5px solid currentColor;
+    top: 50%;
+    left: 50%;
+    transform: translate(-65%, -35%);
 }
 
+.intro-button-arrow::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 1.5px;
+    background: currentColor;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 0) rotate(-45deg);
+}
 .intro-button:hover {
     background-color: #a66d70;
     border-color: #a66d70;
