@@ -163,6 +163,15 @@ section {
     line-height: 1;
     color: inherit;
     flex-shrink: 0;
+    background: transparent;
+    position: relative;
+}
+.header-cta .button-arrow::before {
+    content: "↗";
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    color: #49352F;
+    line-height: 1;
 }
 .header-cta:hover {
     background-color: #49352f;
