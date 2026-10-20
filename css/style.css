@@ -1985,6 +1985,116 @@ section {
     }
 }
 
+/* INGREDIENTS CAROUSEL — MOBILE RESPONSIVE */
+@media (max-width: 700px) {
+
+    .ingredients-section {
+        padding-left: 4%;
+        padding-right: 4%;
+        overflow: hidden;
+    }
+
+    .ingredients-section .section-heading h2 {
+        font-size: clamp(25px, 6vw, 34px);
+        line-height: 1.2;
+        overflow-wrap: break-word;
+    }
+
+    .carousel-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .ingredients-carousel {
+        flex: 1 1 0;
+        width: 0;
+        min-width: 0;
+        gap: 0;
+        padding: 10px 0 16px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scroll-padding: 0;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .ingredients-carousel::-webkit-scrollbar {
+        display: none;
+    }
+
+    .ingredients-carousel .ingredient-card {
+        flex: 0 0 100%;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 12px;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        overflow: hidden;
+    }
+
+    .ingredients-carousel .ingredient-image {
+        width: 100%;
+        height: clamp(170px, 55vw, 250px);
+        object-fit: cover;
+        margin-bottom: 14px;
+    }
+
+    .ingredients-carousel .ingredient-image:hover {
+        transform: none;
+    }
+
+    .ingredients-carousel .ingredient-info h3 {
+        font-size: 19px;
+        line-height: 1.35;
+        overflow-wrap: break-word;
+    }
+
+    .ingredients-carousel .ingredient-info p {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .ingredients-section .carousel-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 32px;
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        font-size: 22px;
+        line-height: 1;
+    }
+}
+
+/* EXTRA SMALL PHONES */
+@media (max-width: 380px) {
+    .ingredients-section {
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+
+    .carousel-container {
+        gap: 4px;
+    }
+
+    .ingredients-section .carousel-button {
+        flex-basis: 28px;
+        width: 28px;
+        height: 28px;
+        font-size: 20px;
+    }
+
+    .ingredients-carousel .ingredient-card {
+        padding: 9px;
+    }
+}
+
 /* SHOP GRID ON TABLETS — max-width: 1000px */
 @media (max-width: 1000px) {
     .shop-grid {
