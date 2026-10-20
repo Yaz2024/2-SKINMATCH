@@ -378,6 +378,7 @@ section {
 }
 
 .intro-button-arrow {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -385,26 +386,28 @@ section {
     height: 22px;
     border: 1px solid #fffaf7;
     border-radius: 50%;
-    position: relative;
     font-size: 0;
+    flex-shrink: 0;
+    color: #fffaf7;
 }
+
 .intro-button-arrow::before {
     content: "";
     position: absolute;
     width: 7px;
     height: 7px;
-    border-top: 1.5px solid currentColor;
-    border-right: 1.5px solid currentColor;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
     top: 50%;
     left: 50%;
-    transform: translate(-65%, -35%);
+    transform: translate(-60%, -40%);
 }
 
 .intro-button-arrow::after {
     content: "";
     position: absolute;
-    width: 10px;
-    height: 1.5px;
+    width: 11px;
+    height: 2px;
     background: currentColor;
     top: 50%;
     left: 50%;
