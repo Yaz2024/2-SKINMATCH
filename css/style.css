@@ -399,7 +399,7 @@ section {
     border-right: 2px solid currentColor;
     top: 50%;
     left: 50%;
-    transform: translate(-60%, -40%);
+    transform: translate(-50%, -50%);
 }
 
 .intro-button-arrow::after {
@@ -410,7 +410,7 @@ section {
     background: currentColor;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, 0) rotate(-45deg);
+    transform: translate(-50%, -50%) rotate(-45deg);
 }
 .intro-button:hover {
     background-color: #a66d70;
