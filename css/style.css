@@ -218,6 +218,7 @@ section {
     margin-bottom: 30px;
 }
 
+
 /* HERO CALL-TO-ACTION BUTTON */
 .button-primary {
     display: inline-flex;
@@ -233,19 +234,18 @@ section {
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 1.5px;
-    border-radius: 21px
+    border-radius: 21px;
+    box-sizing: border-box;
 }
 
 /* HERO BUTTON ARROW */
-.button-arrow {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    border: 1px solid rgba(255, 250, 247, 0.6);
-    border-radius: 50%;
-    font-size: 16px;
+.button-primary .button-arrow {
+    display: inline-block;
+    width: auto;
+    height: auto;
+    border: none;
+    border-radius: 0;
+    font-size: 18px;
     font-family: Arial, sans-serif;
     font-weight: normal;
     font-style: normal;
