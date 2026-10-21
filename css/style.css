@@ -495,7 +495,8 @@ section {
     padding: 0;
     font-family: Georgia, serif;
     font-size: 22px;
-    line-height: 1.45;
+    font-weight: normal;
+    line-height: 1.4;
     color: #49352f;
     float: none;
     transform: none;
