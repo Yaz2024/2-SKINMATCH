@@ -90,32 +90,49 @@ retakeButton.addEventListener("click", function () {
     form.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
-// Ingredients carousel arrows
+ // Ingredients carousel arrows
 const ingredientCarousel = document.querySelector("#ingredients-carousel");
 const previousButton = document.querySelector("#ingredients-prev");
 const nextButton = document.querySelector("#ingredients-next");
 
 function moveToIngredient(direction) {
-    const cards = ingredientCarousel.querySelectorAll(".ingredient-card");
+    const cards = [...ingredientCarousel.querySelectorAll(".ingredient-card")];
     if (!cards.length) return;
 
+    const maxScroll = ingredientCarousel.scrollWidth - ingredientCarousel.clientWidth;
     const currentScroll = ingredientCarousel.scrollLeft;
+    const tolerance = 5;
+
+    // Stop at the first and last ingredient
+    if (direction === "next" && currentScroll >= maxScroll - tolerance) return;
+    if (direction === "prev" && currentScroll <= tolerance) return;
+
+    const carouselRect = ingredientCarousel.getBoundingClientRect();
     let targetCard;
 
     if (direction === "next") {
-        targetCard = [...cards].find(card =>
-            card.offsetLeft > currentScroll + 5
+        targetCard = cards.find(card =>
+            card.getBoundingClientRect().left > carouselRect.left + tolerance
         );
-        if (!targetCard) return;
     } else {
-        targetCard = [...cards].filter(card =>
-            card.offsetLeft < currentScroll - 5
+        targetCard = cards.filter(card =>
+            card.getBoundingClientRect().left < carouselRect.left - tolerance
         ).pop();
-        if (!targetCard) return;
     }
 
+    let targetPosition;
+
+    if (targetCard) {
+        const cardRect = targetCard.getBoundingClientRect();
+        targetPosition = currentScroll + cardRect.left - carouselRect.left;
+    } else {
+        targetPosition = direction === "next" ? maxScroll : 0;
+    }
+
+    targetPosition = Math.max(0, Math.min(targetPosition, maxScroll));
+
     ingredientCarousel.scrollTo({
-        left: targetCard.offsetLeft,
+        left: targetPosition,
         behavior: "smooth"
     });
 }
