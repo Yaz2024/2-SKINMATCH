@@ -487,10 +487,8 @@ section {
     border-radius: 14px;
     box-sizing: border-box;
 }
-.quiz-question legend {
-    display: table;
-    float: none;
-    position: static;
+.quiz-question-title {
+    display: block;
     width: 100%;
     margin: 0 0 22px 0;
     padding: 0;
@@ -498,8 +496,6 @@ section {
     font-size: 22px;
     line-height: 1.45;
     color: #49352f;
-    transform: none;
-    box-sizing: border-box;
 }
 .options-grid {
     display: grid;
