@@ -385,6 +385,16 @@ section {
     line-height: 1;
     opacity: 0.8;
 }
+.step-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    font-size: 26px;
+}
 .step-content {
     max-width: 300px;
     margin-top: 45px;
@@ -592,6 +602,50 @@ section {
     display: grid;
     gap: 16px;
     margin: 0 0 28px;
+}
+#routine-recommendations h3 {
+    margin: 0 0 8px;
+    color: #49352f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 23px;
+    font-weight: normal;
+    line-height: 1.35;
+}
+#routine-recommendations p {
+    margin: 0 0 10px;
+    color: #624c44;
+    font-size: 15px;
+    line-height: 1.75;
+}
+#routine-recommendations p:last-child {
+    margin-bottom: 0;
+}
+#routine-recommendations ul,
+#routine-recommendations ol {
+    margin: 8px 0 16px 20px;
+    padding: 0;
+    color: #624c44;
+    line-height: 1.8;
+}
+#routine-recommendations li {
+    margin-bottom: 5px;
+    padding-left: 3px;
+}
+#routine-recommendations strong {
+    color: #49352f;
+    font-weight: 600;
+}
+.results-section .recommendation-card {
+    margin: 0;
+    padding: 22px 24px;
+    background: #fbf7f2;
+    border-left: 2px solid #b77e80;
+}
+.results-section .results-disclaimer {
+    margin-top: 18px;
+    color: #806b63;
+    font-size: 12px;
+    line-height: 1.7;
 }
 #retake-quiz {
     display: inline-block;
@@ -1197,6 +1251,52 @@ section {
         grid-template-columns: 1fr;
         gap: 35px;
     }
+    
+    /* CAROSELLO INGREDIENTI SU MOBILE */
+    .ingredients-section {
+        padding-left: 4%;
+        padding-right: 4%;
+        overflow: hidden;
+    }
+    .carousel-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        width: 100%;
+        min-width: 0;
+    }
+    .ingredients-carousel {
+        flex: 1 1 0;
+        width: 0;
+        min-width: 0;
+        gap: 0;
+        padding: 10px 0 16px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+    }
+    .ingredients-carousel::-webkit-scrollbar {
+        display: none;
+    }
+    .ingredients-carousel .ingredient-card {
+        flex: 0 0 100%;
+        width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 12px;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+        overflow: hidden;
+    }
+    .ingredients-carousel .ingredient-image {
+        display: block;
+        width: 100%;
+        height: clamp(170px, 55vw, 250px);
+        object-fit: cover;
+        margin-bottom: 14px;
+    }
 }
 
 @media (max-width: 550px) {
@@ -1205,5 +1305,29 @@ section {
     }
     .options-grid {
         grid-template-columns: 1fr;
+    }
+    .product-image-container {
+        height: auto;
+        min-height: 0;
+        background-color: transparent;
+    }
+    .product-image-container img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+}
+
+@media (max-width: 380px) {
+    .ingredients-section {
+        padding-left: 3%;
+        padding-right: 3%;
+    }
+    .carousel-container {
+        gap: 4px;
+    }
+    .ingredients-carousel .ingredient-card {
+        padding: 9px;
     }
 }
