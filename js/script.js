@@ -1,4 +1,3 @@
-
 // Quiz elements and replies
 const form = document.querySelector("#routine-form");
 const results = document.querySelector("#results");
