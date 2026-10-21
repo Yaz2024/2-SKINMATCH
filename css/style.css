@@ -718,6 +718,142 @@ fieldset {
     line-height: 1.7;
 }
 
+/* QUIZ RESULTS: RECOMMENDED PRODUCTS */
+
+.recommended-products {
+    margin-top: 6px;
+    padding-top: 26px;
+    border-top: 1px solid #eadbd4;
+}
+
+#routine-recommendations .recommended-intro {
+    margin-bottom: 18px;
+    font-size: 14px;
+}
+
+.recommended-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 16px;
+}
+
+.recommended-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #eadbd4;
+    border-radius: 14px;
+}
+
+.recommended-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.recommended-info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 14px 16px 16px;
+}
+
+#routine-recommendations .recommended-info p {
+    margin: 0 0 4px;
+}
+
+#routine-recommendations .recommended-info .product-brand {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    color: #8c6862;
+}
+
+#routine-recommendations .recommended-info .product-ingredient {
+    color: #8c6862;
+    font-size: 12px;
+}
+
+#routine-recommendations .recommended-info .product-ingredient strong {
+    color: #b77e80;
+}
+
+@media (max-width: 600px) {
+    .recommended-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .recommended-info {
+        padding: 10px 12px 12px;
+    }
+
+    .recommended-info h4 {
+        font-size: 14px;
+    }
+
+    .recommended-button {
+        padding: 10px 6px;
+        font-size: 9px;
+    }
+}
+
+.recommended-info h4 {
+    margin: 0 0 6px;
+    color: #49352f;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 1.35;
+}
+
+#routine-recommendations .recommended-price {
+    margin: auto 0 12px;
+    padding-top: 6px;
+    color: #49352f;
+    font-weight: bold;
+}
+
+.recommended-button,
+.recommended-add-all {
+    padding: 11px 14px;
+    border: 1px solid #49352f;
+    background: #49352f;
+    color: #fffaf7;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+}
+
+.recommended-button:hover,
+.recommended-add-all:hover {
+    background: #b77e80;
+    border-color: #b77e80;
+}
+
+.recommended-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 18px;
+    padding: 16px 18px;
+    background: #f8e9e4;
+    border-radius: 12px;
+}
+
+#routine-recommendations .recommended-footer p {
+    margin: 0;
+    color: #49352f;
+}
+
+.recommended-add-all {
+    border-radius: 22px;
+}
+
 #retake-quiz {
     display: inline-block;
     margin-top: 2px;
@@ -904,15 +1040,41 @@ fieldset {
     box-shadow: none;
 }
 
-.product-tag {
+/* PRODUCT LABELS (one or more per product) */
+.product-tags {
     position: absolute;
     top: 10px;
     left: 10px;
     z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-width: calc(100% - 20px);
+    line-height: 1.6;
+}
+
+.product-tag {
     padding: 6px 9px;
     background-color: #ead1d0;
+    color: #49352f;
     font-size: 10px;
     letter-spacing: 1px;
+}
+
+.product-tag-must {
+    background-color: #49352f;
+    color: #fffaf7;
+}
+
+.product-ingredient {
+    margin-bottom: 6px;
+    color: #8c6862;
+    font-size: 12px;
+}
+
+.product-ingredient strong {
+    color: #b77e80;
+    font-weight: 600;
 }
 
 .product-brand {
