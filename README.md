@@ -3,7 +3,7 @@
 Digital interactions and engagement strategies - 2026/2027 by Prof. Paolillo
 ## Link website from Github pages
 
-[https://yaz2024.github.io/SKINMATCH/](https://yaz2024.github.io/2-SKINMATCH/)
+(https://yaz2024.github.io/2-SKINMATCH/)
 
 ## Group members
 
