@@ -784,10 +784,19 @@ section {
     margin-bottom: 14px;
 
 }
+/* IMAGE HOVER — DESKTOP ONLY */
 
-.ingredient-image:hover {
-    transform: scale(1.12);
-    z-index: 10;
+.ingredient-image,
+.review-avatar {
+    transition: transform 0.25s ease;
+}
+
+.ingredient-image {
+    cursor: default;
+}
+
+.review-avatar {
+    cursor: default;
 }
 
 .carousel-button {
@@ -2158,6 +2167,13 @@ section {
     .ingredients-carousel .ingredient-card {
         padding: 9px;
     }
+}
+    @media (hover: hover) and (pointer: fine) {
+    .ingredient-image:hover,
+    .review-avatar:hover {
+        transform: scale(1.12);
+        position: relative;
+        z-index: 10;
 }
 
 /* SHOP GRID ON TABLETS — max-width: 1000px */
