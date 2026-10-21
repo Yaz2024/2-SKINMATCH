@@ -1043,7 +1043,46 @@ section {
     margin: 0 0 24px;
     border-radius: 50%;
     object-fit: cover;
-    cursor: pointer;
+    cursor: zoom-in;
+    transition: transform 0.25s ease;
+}
+
+.review-avatar.avatar-enlarged {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    z-index: 9999 !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 88vw !important;
+    max-height: 82vh !important;
+    border-radius: 10px !important;
+    object-fit: contain !important;
+    margin: 0 !important;
+    padding: 6px !important;
+    background: #fffaf7;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+    transform: translate(-50%, -50%) !important;
+    cursor: zoom-out;
+}
+
+.ingredient-image.image-enlarged {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    z-index: 9999 !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 88vw !important;
+    max-height: 82vh !important;
+    object-fit: contain !important;
+    margin: 0 !important;
+    padding: 6px !important;
+    background: #fffaf7;
+    border-radius: 10px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
+    transform: translate(-50%, -50%) !important;
+    cursor: zoom-out;
 }
 
 .review-card h3 {
@@ -1062,7 +1101,6 @@ section {
     margin: 0;
     line-height: 1.8;
 }
-
 
 /* CONTACTS SECTION */
 
