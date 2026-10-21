@@ -51,6 +51,177 @@ function addResultList(container, heading, steps, numbered = false) {
     container.appendChild(section);
 }
 
+// RECOMMENDED PRODUCTS
+// Main product for each ingredient the quiz can suggest
+const ingredientProducts = {
+    "Hyaluronic acid": "hyaluronic-serum",
+    "Collagen": "collagen-cream",
+    "Salicylic acid (BHA)": "bha-cleanser",
+    "Glycolic acid (AHA)": "aha-liquid",
+    "Vitamin C": "vitamin-drop",
+    "Niacinamide": "niacinamide-serum",
+    "Centella asiatica": "centella-ampoule",
+    "Retinol": "retinol-cream"
+};
+
+// Extra products that suit each skin type (used to fill the remaining places)
+const skinTypeProducts = {
+    dry: ["snail-essence", "barrier-cream"],
+    oily: ["heartleaf-toner", "bha-cleanser"],
+    combination: ["heartleaf-toner", "snail-essence"],
+    normal: ["snail-essence", "glow-serum"],
+    sensitive: ["barrier-cream", "heartleaf-toner", "centella-ampoule"],
+    unsure: ["snail-essence", "barrier-cream"]
+};
+
+// Gentle products suitable for most skin types
+const gentleBasics = ["snail-essence", "hyaluronic-serum", "barrier-cream", "centella-ampoule", "heartleaf-toner"];
+
+// Acid exfoliants: never suggest more than one together
+const exfoliatingAcids = ["bha-cleanser", "aha-liquid"];
+
+// Strong actives left out for sensitive skin
+const strongActives = ["retinol-cream", "aha-liquid"];
+
+// How many products to suggest for each routine level (minimal, regular, multi-step)
+const productsPerLevel = [2, 3, 5];
+
+// Maximum total for each budget answer
+const budgetLimits = { under40: 40, "40-80": 80, "80-150": 150, over150: Infinity };
+
+function matchesAllergies(productId, allergies) {
+    if (!allergies) return false;
+    const card = document.querySelector(`.product-button[data-product="${productId}"]`).closest(".shop-card");
+    const productText = (card.querySelector("h3").textContent + " " +
+        card.querySelector(".product-ingredient").textContent).toLowerCase();
+    const words = allergies.toLowerCase().split(/[^a-z0-9]+/).filter(word => word.length >= 4);
+    return words.some(word => productText.includes(word));
+}
+
+function pickRecommendedProducts({ skin, budget, level, concerns, ingredients, allergies }) {
+    // 1. Products for the suggested ingredients, 2. products for the skin type
+    // 3. gentle basics, used only if there are still free places
+    const candidates = ingredients.map(name => ingredientProducts[name]).filter(Boolean);
+    if (concerns.includes("wrinkles") || (skin === "dry" && level === 2)) candidates.push("peptide-serum");
+    candidates.push(...(skinTypeProducts[skin] || skinTypeProducts.unsure), ...gentleBasics);
+
+    let acidChosen = false;
+    const allowed = [...new Set(candidates)].filter(function (id) {
+        if (!products[id]) return false;
+        if (skin === "sensitive" && strongActives.includes(id)) return false;
+        if (matchesAllergies(id, allergies)) return false;
+        // Only one acid exfoliant per routine: they should not be layered together
+        if (exfoliatingAcids.includes(id)) {
+            if (acidChosen) return false;
+            acidChosen = true;
+        }
+        return true;
+    });
+
+    // Keep the order of priority, but stay within the number of products and the budget
+    const maxProducts = productsPerLevel[level] || 2;
+    const limit = budgetLimits[budget] ?? Infinity;
+    const chosen = [];
+    let total = 0;
+
+    allowed.forEach(function (id) {
+        if (chosen.length >= maxProducts) return;
+        if (total + products[id].price > limit) return;
+        chosen.push(id);
+        total += products[id].price;
+    });
+
+    // Always suggest at least one product (the cheapest available)
+    if (!chosen.length && allowed.length) {
+        chosen.push(allowed.reduce((a, b) => products[a].price <= products[b].price ? a : b));
+    }
+    return chosen;
+}
+
+function addRecommendedProducts(container, productIds, budget) {
+    const section = document.createElement("div");
+    section.className = "routine-group recommended-products";
+
+    const heading = document.createElement("h3");
+    heading.textContent = "Recommended products";
+
+    const intro = document.createElement("p");
+    intro.className = "recommended-intro";
+
+    section.append(heading, intro);
+
+    if (!productIds.length) {
+        intro.textContent = "We couldn't find a product that matches your answers. Explore the shop below.";
+        container.appendChild(section);
+        return;
+    }
+
+    intro.textContent = "Selected from our shop to match your skin type, goals, routine and budget.";
+
+    const grid = document.createElement("div");
+    grid.className = "recommended-grid";
+
+    let total = 0;
+    productIds.forEach(function (id) {
+        const shopCard = document.querySelector(`.product-button[data-product="${id}"]`).closest(".shop-card");
+        total += products[id].price;
+
+        const card = document.createElement("article");
+        card.className = "recommended-card";
+
+        const image = document.createElement("img");
+        image.src = shopCard.querySelector("img").getAttribute("src");
+        image.alt = shopCard.querySelector("img").alt;
+
+        const info = document.createElement("div");
+        info.className = "recommended-info";
+
+        const brand = document.createElement("p");
+        brand.className = "product-brand";
+        brand.textContent = shopCard.querySelector(".product-brand").textContent;
+
+        const name = document.createElement("h4");
+        name.textContent = shopCard.querySelector("h3").textContent;
+
+        const ingredient = document.createElement("p");
+        ingredient.className = "product-ingredient";
+        ingredient.innerHTML = shopCard.querySelector(".product-ingredient").innerHTML;
+
+        const price = document.createElement("p");
+        price.className = "recommended-price";
+        price.textContent = "€" + products[id].price.toFixed(2);
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "recommended-button";
+        button.textContent = "ADD TO BAG";
+        button.addEventListener("click", () => addToCart(id));
+
+        info.append(brand, name, ingredient, price, button);
+        card.append(image, info);
+        grid.appendChild(card);
+    });
+
+    const footer = document.createElement("div");
+    footer.className = "recommended-footer";
+
+    const totalText = document.createElement("p");
+    totalText.innerHTML = `Routine total: <strong>€${total.toFixed(2)}</strong>`;
+
+    const addAllButton = document.createElement("button");
+    addAllButton.type = "button";
+    addAllButton.className = "recommended-add-all";
+    addAllButton.textContent = "ADD ALL TO BAG";
+    addAllButton.addEventListener("click", function () {
+        productIds.forEach(id => addToCart(id, false));
+        openCart();
+    });
+
+    footer.append(totalText, addAllButton);
+    section.append(grid, footer);
+    container.appendChild(section);
+}
+
 form.addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -131,8 +302,12 @@ addResultList(recommendations, `Your ${routineName.toLowerCase()} evening routin
     if (skin === "sensitive") notes.push("For sensitive skin, introduce new ingredients cautiously and prioritise gentle formulas.");
     if (ingredients.includes("Retinol")) notes.push("Retinol is an optional night-time treatment, not a required step. Avoid retinoids during pregnancy; seek professional guidance when appropriate.");
     if (ingredients.some(name => name.includes("Salicylic") || name.includes("Glycolic"))) notes.push("Acid exfoliants are optional, should be introduced gradually, and should not all be layered together. Daily sunscreen is important.");
-    if (allergies) notes.push(`You listed ingredients to avoid: ${allergies}. These entries have NOT been automatically checked against product formulas; verify ingredient labels before use.`);
+    if (allergies) notes.push(`You listed ingredients to avoid: ${allergies}. Products whose name or key ingredient matches have been left out, but full formulas have NOT been checked; verify ingredient labels before use.`);
     if (notes.length) addResultList(recommendations, "Important notes", notes);
+
+    // Recommended products from the shop, based on the same answers
+    const recommendedIds = pickRecommendedProducts({ skin, budget, level, concerns, ingredients, allergies });
+    addRecommendedProducts(recommendations, recommendedIds, budget);
 
     results.hidden = false;
     results.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -208,8 +383,10 @@ shopFilters.forEach(function (button) {
         button.classList.add("active");
 
         shopProducts.forEach(function (product) {
+            // A product can belong to more than one category (e.g. "must-have hydration")
+            const productCategories = product.dataset.category.split(" ");
             const matchesCategory = selectedCategory === "all" ||
-                product.dataset.category === selectedCategory;
+                productCategories.includes(selectedCategory);
             product.hidden = !matchesCategory;
         });
     });
@@ -244,10 +421,19 @@ const checkoutButton = document.querySelector("#checkout-button");
 
 // Available products
 const products = {
-    "snail-essence": { name: "Snail Essence", price: 25 },
-    "heartleaf-toner": { name: "Heartleaf Toner", price: 23 },
-    "glow-serum": { name: "Glow Serum", price: 17 },
-    "barrier-cream": { name: "SoonJung Intensive Barrier Cream", price: 22 }
+    "snail-essence": { name: "COSRX Advanced Snail 96 Mucin Essence", price: 25.0 },
+    "heartleaf-toner": { name: "Anua Heartleaf 77% Soothing Toner", price: 23.0 },
+    "hyaluronic-serum": { name: "Torriden DIVE-IN Low Molecular Hyaluronic Acid Serum", price: 23.0 },
+    "centella-ampoule": { name: "SKIN1004 Madagascar Centella Ampoule", price: 29.5 },
+    "glow-serum": { name: "Beauty of Joseon Glow Serum", price: 17.0 },
+    "barrier-cream": { name: "Etude SoonJung 2x Barrier Intensive Cream", price: 22.0 },
+    "collagen-cream": { name: "Medicube Collagen Jelly Cream", price: 18.0 },
+    "bha-cleanser": { name: "COSRX Salicylic Acid Daily Gentle Cleanser", price: 9.0 },
+    "aha-liquid": { name: "COSRX AHA 7 Whitehead Power Liquid", price: 25.0 },
+    "vitamin-drop": { name: "Klairs Freshly Juiced Vitamin Drop", price: 27.0 },
+    "niacinamide-serum": { name: "Anua Niacinamide 10% + TXA 4% Serum", price: 25.0 },
+    "retinol-cream": { name: "COSRX The Retinol 0.1 Cream", price: 34.5 },
+    "peptide-serum": { name: "Medicube PDRN Pink Peptide Serum", price: 23.0 }
 };
 
 const cart = [];
@@ -316,31 +502,33 @@ function updateCart() {
     cartTotal.textContent = "€" + total.toFixed(2);
 }
 
-// Add product to bag
+// Add product to bag (used by the shop and by the quiz recommendations)
+function addToCart(productId, showCart = true) {
+    const product = products[productId];
+    if (!product) return;
+
+    const existingItem = cart.find(function (item) {
+        return item.id === productId;
+    });
+
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({
+            id: productId,
+            name: product.name,
+            price: product.price,
+            quantity: 1
+        });
+    }
+
+    updateCart();
+    if (showCart) openCart();
+}
+
 document.querySelectorAll(".product-button").forEach(function (button) {
     button.addEventListener("click", function () {
-        const productId = button.dataset.product;
-        const product = products[productId];
-
-        if (!product) return;
-
-        const existingItem = cart.find(function (item) {
-            return item.id === productId;
-        });
-
-        if (existingItem) {
-            existingItem.quantity++;
-        } else {
-            cart.push({
-                id: productId,
-                name: product.name,
-                price: product.price,
-                quantity: 1
-            });
-        }
-
-        updateCart();
-        openCart();
+        addToCart(button.dataset.product);
     });
 });
 
