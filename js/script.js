@@ -1,5 +1,5 @@
 
- // Quiz elements and replies
+// Quiz elements and replies
 const form = document.querySelector("#routine-form");
 const results = document.querySelector("#results");
 const title = document.querySelector("#profile-title");
@@ -7,82 +7,134 @@ const description = document.querySelector("#profile-description");
 const recommendations = document.querySelector("#routine-recommendations");
 const retakeButton = document.querySelector("#retake-quiz");
 
-// Profile shown after the submit
+// Data used by the rule-based quiz
+const profiles = {
+    dry: { title: "The Hydration Seeker", description: "Focus on moisture and gentle skincare.", ingredients: ["Hyaluronic acid", "Collagen"] },
+    oily: { title: "The Balance Seeker", description: "Explore lightweight products and gentle cleansing.", ingredients: ["Salicylic acid (BHA)"] },
+    combination: { title: "The Multi-Tasker", description: "Balance different areas of your skin.", ingredients: ["Salicylic acid (BHA)"] },
+    normal: { title: "The Everyday Essentialist", description: "Maintain a simple, consistent routine.", ingredients: ["Vitamin C", "Niacinamide"] },
+    sensitive: { title: "The Gentle Care Seeker", description: "Prioritise comfort and tolerability.", ingredients: ["Centella asiatica"] },
+    unsure: { title: "The Skin Explorer", description: "Start gently while discovering your skin type.", ingredients: [] }
+};
+
+const concernIngredients = {
+    hydration: ["Hyaluronic acid"],
+    blemishes: ["Glycolic acid (AHA)"],
+    "uneven-tone": ["Niacinamide"],
+    redness: ["Centella asiatica"],
+    pores: ["Salicylic acid (BHA)"],
+    glow: ["Vitamin C"],
+    wrinkles: ["Retinol", "Collagen"]
+};
+
+const concernLabels = {
+    hydration: "Hydration", blemishes: "Blemishes", "uneven-tone": "Uneven skin tone",
+    redness: "Redness", pores: "Visible pores", glow: "Dullness and glow",
+    wrinkles: "Wrinkles and fine lines"
+};
+
+function addResultList(container, heading, steps) {
+    const section = document.createElement("div");
+    section.className = "routine-group";
+    const h3 = document.createElement("h3");
+    h3.textContent = heading;
+    const list = document.createElement("ul");
+    steps.forEach(function (step) {
+        const li = document.createElement("li");
+        li.textContent = step;
+        list.appendChild(li);
+    });
+    section.append(h3, list);
+    container.appendChild(section);
+}
+
 form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const skinInput = document.querySelector('input[name="skinType"]:checked');
-    const budgetInput = document.querySelector('input[name="budget"]:checked');
-    const timeInput = document.querySelector('input[name="time"]:checked');
-
-    if (!skinInput || !budgetInput || !timeInput) return;
+    const skinInput = form.querySelector('input[name="skinType"]:checked');
+    const budgetInput = form.querySelector('input[name="budget"]:checked');
+    const timeInput = form.querySelector('input[name="time"]:checked');
+    const routineInput = form.querySelector('input[name="routine"]:checked');
+    if (!skinInput || !budgetInput || !timeInput || !routineInput) return;
 
     const skin = skinInput.value;
     const budget = budgetInput.value;
     const time = timeInput.value;
-
-    const profiles = {
-        dry: {
-            title: "The Hydration Seeker",
-            description: "Focus on hydration and gentle skincare."
-        },
-        oily: {
-            title: "The Balance Seeker",
-            description: "Explore lightweight products and gentle cleansing."
-        },
-        sensitive: {
-            title: "The Gentle Care Seeker",
-            description: "Keep your routine simple and focus on tolerability."
-        },
-        combination: {
-            title: "The Multi-Tasker",
-            description: "Look for a balanced routine suited to your skin."
-        },
-        normal: {
-            title: "The Everyday Essentialist",
-            description: "Focus on cleansing, moisturising and sun protection."
-        },
-        unsure: {
-            title: "The Skin Explorer",
-            description: "Start with the basics while discovering your skin."
-        }
-    };
+    const routinePreference = routineInput.value;
+    const concerns = [...form.querySelectorAll('input[name="concerns"]:checked')]
+        .map(input => input.value);
+    const allergies = form.querySelector("#allergies").value.trim();
 
     const profile = profiles[skin] || profiles.unsure;
     title.textContent = profile.title;
     description.textContent = profile.description;
+    recommendations.replaceChildren();
 
-    let routine = `
-        <h3>Your skincare routine</h3>
-        <p>Morning: gentle cleanser, moisturiser and SPF 30+.</p>
-        <p>Evening: cleanser and moisturiser.</p>
-    `;
+    const ingredients = [...new Set([
+        ...profile.ingredients,
+        ...concerns.flatMap(concern => concernIngredients[concern] || [])
+    ])];
 
-    if (skin === "dry") {
-        routine += "<p>Explore hydrating products.</p>";
+    addResultList(recommendations, "Ingredients to explore",
+        ingredients.length ? ingredients : ["Begin with gentle, basic products while you learn about your skin."]);
+
+    // Time limits the number of steps; routine preference sets the preferred complexity.
+    const levels = { minimal: 0, beginner: 0, regular: 1, advanced: 2 };
+    const timeLimits = { quick: 0, medium: 1, long: 2 };
+    const level = Math.min(levels[routinePreference] ?? 0, timeLimits[time] ?? 0);
+    const routineName = ["Minimal", "Regular", "Multi-step"][level];
+
+    // Use one gentle serum suggestion; leave strong active ingredients as optional treatments.
+    const gentleOptions = ingredients.filter(name =>
+        !name.includes("Salicylic") && !name.includes("Glycolic") && name !== "Retinol"
+    );
+    const serum = gentleOptions[0] || (skin === "unsure" ? "a simple hydrating serum" : "a gentle hydrating serum");
+    const exfoliationSuggested = skin === "oily" || skin === "combination" ||
+        concerns.includes("blemishes") || concerns.includes("pores");
+
+    let morning = [];
+    let evening = [];
+    if (level === 0) {
+        morning = ["Gentle cleanser", "Moisturiser with broad-spectrum SPF 30+ (or moisturiser followed by SPF 30+)"];
+        evening = ["Gentle cleanser", "Hydrating moisturiser"];
+    } else if (level === 1) {
+        morning = ["Gentle cleanser", `Serum to explore: ${serum}`, "Hydrating moisturiser", "Broad-spectrum SPF 30+"];
+        evening = ["Gentle cleanser", "Hydrating moisturiser"];
+    } else {
+        morning = [skin === "dry" || skin === "sensitive" ? "Gentle cleanser" : "Gentle gel or mousse cleanser", `Serum to explore: ${serum}`, "Optional eye cream", "Hydrating moisturiser", "Broad-spectrum SPF 30+"];
+        evening = ["Gentle cleanser (double cleansing only when useful and tolerated)", "Serum to explore according to your skin goals", "Optional eye cream", "Hydrating moisturiser"];
+        if (skin === "dry") {
+            morning.splice(2, 0, "Optional Vitamin C serum, if your skin tolerates it");
+            evening.splice(2, 0, "Optional peptide serum for dry skin");
+        }
+        if (exfoliationSuggested) evening.splice(1, 0, "Optional acid exfoliation on selected evenings, not every day");
     }
-    if (skin === "oily") {
-        routine += "<p>Explore lightweight moisturisers.</p>";
-    }
-    if (skin === "sensitive") {
-        routine += "<p>Consider fragrance-free products.</p>";
-    }
-    if (time === "quick") {
-        routine += "<p>Keep your routine simple and practical.</p>";
-    }
-    if (budget === "under40") {
-        routine += "<p>Look for affordable skincare essentials.</p>";
+    addResultList(recommendations, `Your ${routineName.toLowerCase()} morning routine`, morning);
+    addResultList(recommendations, `Your ${routineName.toLowerCase()} evening routine`, evening);
+
+    if (concerns.length) {
+        addResultList(recommendations, "Your selected concerns",
+            concerns.map(concern => `${concernLabels[concern]}: ${(concernIngredients[concern] || []).join(", ")}`));
     }
 
-    recommendations.innerHTML = routine;
+    const notes = [];
+    if (level === 0 && exfoliationSuggested) notes.push("If you have oily skin or blemishes, optional exfoliation can be considered occasionally, not as an essential daily step.");
+    if (budget === "under40") notes.push("Budget: focus on affordable essentials before adding extra treatments.");
+    if (time === "quick" && level === 0) notes.push("Your routine has been kept short to fit 5 minutes or less.");
+    if (skin === "sensitive") notes.push("For sensitive skin, introduce new ingredients cautiously and prioritise gentle formulas.");
+    if (ingredients.includes("Retinol")) notes.push("Retinol is an optional night-time treatment, not a required step. Avoid retinoids during pregnancy; seek professional guidance when appropriate.");
+    if (ingredients.some(name => name.includes("Salicylic") || name.includes("Glycolic"))) notes.push("Acid exfoliants are optional, should be introduced gradually, and should not all be layered together. Daily sunscreen is important.");
+    if (allergies) notes.push(`You listed ingredients to avoid: ${allergies}. These entries have NOT been automatically checked against product formulas; verify ingredient labels before use.`);
+    if (notes.length) addResultList(recommendations, "Important notes", notes);
+
     results.hidden = false;
     results.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
-// Retake the quiz
 retakeButton.addEventListener("click", function () {
     form.reset();
     results.hidden = true;
+    recommendations.replaceChildren();
     form.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
