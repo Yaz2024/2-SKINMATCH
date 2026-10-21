@@ -1,5 +1,5 @@
 
-// Quiz elements and replies
+ // Quiz elements and replies
 const form = document.querySelector("#routine-form");
 const results = document.querySelector("#results");
 const title = document.querySelector("#profile-title");
@@ -15,14 +15,12 @@ form.addEventListener("submit", function (event) {
     const budgetInput = document.querySelector('input[name="budget"]:checked');
     const timeInput = document.querySelector('input[name="time"]:checked');
 
-    // security control for no errors in response
     if (!skinInput || !budgetInput || !timeInput) return;
 
     const skin = skinInput.value;
     const budget = budgetInput.value;
     const time = timeInput.value;
 
-    // Type of skin based profile
     const profiles = {
         dry: {
             title: "The Hydration Seeker",
@@ -54,7 +52,6 @@ form.addEventListener("submit", function (event) {
     title.textContent = profile.title;
     description.textContent = profile.description;
 
-    // For creating personalization based on the choices
     let routine = `
         <h3>Your skincare routine</h3>
         <p>Morning: gentle cleanser, moisturiser and SPF 30+.</p>
@@ -77,7 +74,6 @@ form.addEventListener("submit", function (event) {
         routine += "<p>Look for affordable skincare essentials.</p>";
     }
 
-    // results showing
     recommendations.innerHTML = routine;
     results.hidden = false;
     results.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -90,7 +86,7 @@ retakeButton.addEventListener("click", function () {
     form.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
- // Ingredients carousel arrows
+// Ingredients carousel arrows
 const ingredientCarousel = document.querySelector("#ingredients-carousel");
 const previousButton = document.querySelector("#ingredients-prev");
 const nextButton = document.querySelector("#ingredients-next");
@@ -103,7 +99,6 @@ function moveToIngredient(direction) {
     const currentScroll = ingredientCarousel.scrollLeft;
     const tolerance = 5;
 
-    // Stop at the first and last ingredient
     if (direction === "next" && currentScroll >= maxScroll - tolerance) return;
     if (direction === "prev" && currentScroll <= tolerance) return;
 
@@ -161,7 +156,7 @@ shopFilters.forEach(function (button) {
     });
 });
 
-// Newsletter just for example
+// Newsletter
 const newsletterForm = document.querySelector("#newsletter-form");
 const newsletterEmail = document.querySelector("#newsletter-email");
 const newsletterMessage = document.querySelector("#newsletter-message");
@@ -178,7 +173,7 @@ newsletterForm.addEventListener("submit", function (event) {
     newsletterForm.reset();
 });
 
-// HTML ELEMENTS
+// Cart elements
 const cartButton = document.querySelector("#cart-button");
 const cartPanel = document.querySelector("#cart-panel");
 const cartOverlay = document.querySelector("#cart-overlay");
@@ -188,7 +183,7 @@ const cartItems = document.querySelector("#cart-items");
 const cartTotal = document.querySelector("#cart-total");
 const checkoutButton = document.querySelector("#checkout-button");
 
-// AVAILABLE PRODUCTS: ID, NAME AND PRICES
+// Available products
 const products = {
     "snail-essence": { name: "Snail Essence", price: 25 },
     "heartleaf-toner": { name: "Heartleaf Toner", price: 23 },
@@ -198,7 +193,7 @@ const products = {
 
 const cart = [];
 
-// OPEN/CLOSE CART
+// Open and close cart
 function openCart() {
     cartPanel.classList.add("is-open");
     cartOverlay.hidden = false;
@@ -215,7 +210,7 @@ cartButton.addEventListener("click", openCart);
 cartClose.addEventListener("click", closeCart);
 cartOverlay.addEventListener("click", closeCart);
 
-// UPDATE PRODUCTS/TOTALS...
+// Update cart and totals
 function updateCart() {
     cartItems.innerHTML = "";
 
@@ -226,7 +221,7 @@ function updateCart() {
     let total = 0;
     let itemCount = 0;
 
-    cart.forEach(function(item, index) {
+    cart.forEach(function (item, index) {
         total += item.price * item.quantity;
         itemCount += item.quantity;
 
@@ -244,7 +239,7 @@ function updateCart() {
         const removeButton = document.createElement("button");
         removeButton.type = "button";
         removeButton.textContent = "Remove";
-        removeButton.addEventListener("click", function() {
+        removeButton.addEventListener("click", function () {
             cart.splice(index, 1);
             updateCart();
         });
@@ -262,17 +257,15 @@ function updateCart() {
     cartTotal.textContent = "€" + total.toFixed(2);
 }
 
-// Add product by button ADD TO BAG
-document.querySelectorAll(".product-button").forEach(function(button) {
-    button.addEventListener("click", function() {
+// Add product to bag
+document.querySelectorAll(".product-button").forEach(function (button) {
+    button.addEventListener("click", function () {
         const productId = button.dataset.product;
         const product = products[productId];
 
-        if (!product) {
-            return;
-        }
+        if (!product) return;
 
-        const existingItem = cart.find(function(item) {
+        const existingItem = cart.find(function (item) {
             return item.id === productId;
         });
 
@@ -292,9 +285,9 @@ document.querySelectorAll(".product-button").forEach(function(button) {
     });
 });
 
-// Checkout just for example
-checkoutButton.addEventListener("click", function() {
-    alert("Thank you! Your checkout is a demo, but stay tuned in the future!.");
+// Demo checkout
+checkoutButton.addEventListener("click", function () {
+    alert("Thank you! Your checkout is a demo, but stay tuned in the future!");
 });
 
 updateCart();
