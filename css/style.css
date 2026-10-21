@@ -466,25 +466,29 @@ section {
     margin: 0 auto;
 }
 
+
 .quiz-question {
     min-width: 0;
     margin: 0 0 20px;
-    padding: 28px 30px;
+    padding: 24px 30px 28px;
     background: #fffdfa;
     border: 1px solid #e6dcd4;
     border-radius: 14px;
 }
 
 .quiz-question legend {
+    display: block;
+    width: 100%;
     max-width: 100%;
-    margin-bottom: 20px;
-    padding: 0 8px 0 0;
+    margin: 0 0 20px;
+    padding: 0;
     font-family: Georgia, serif;
     font-size: 22px;
     line-height: 1.45;
     color: #49352f;
+    float: none;
+    box-sizing: border-box;
 }
-
 .options-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2277,11 +2281,4 @@ section {
     .ingredient-image:hover {
         transform: none;
     }0.25);
-}
-
-/* Question quiz position */
-.quiz-question legend {
-    display: block;
-    transform: translateY(30px);
-    margin-bottom: 35px;
 }
