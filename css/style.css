@@ -2219,7 +2219,6 @@ section {
         font-size: 8px;
         letter-spacing: 1px;
     }
-}
 
 /* HOW IT WORKS AND FOOTER ON TABLETS — max-width: 800px */
 @media (max-width: 800px) {
@@ -2262,27 +2261,20 @@ section {
     }
 }
 
-/* NEWSLETTER AND FINAL CTA ON TABLETS — max-width: 750px */
-@media (max-width: 750px) {
-    .final-cta {
-        grid-template-columns: 1fr;
-        gap: 35px;
-        padding: 55px 7%;
-    }
-
-    .cta-main h2 {
-        font-size: 48px;
-    }
-
-    .community-box {
-        padding: 25px;
-    }
-}
-/* Hover effect only for ingredient images */
+/* Ingredient images: hover effect on desktop */
 .ingredient-image {
     transition: transform 0.3s ease;
 }
 
-.ingredient-image:hover {
-    transform: scale(1.05);
+@media (hover: hover) and (pointer: fine) {
+    .ingredient-image:hover {
+        transform: scale(1.05);
+    }
+}
+
+/* Mobile: no enlargement on touch */
+@media (hover: none), (pointer: coarse) {
+    .ingredient-image:hover {
+        transform: none;
+    }
 }
