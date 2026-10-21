@@ -2002,66 +2002,8 @@ section {
 }
 
 /* GENERAL MOBILE LAYOUT — max-width: 700px */
+
 @media (max-width: 700px) {
-    .carousel-container {
-        gap: 5px;
-    }
-
-    .ingredients-carousel {
-        flex: 1 1 0;
-        width: 0;
-        min-width: 0;
-        gap: 0;
-        padding: 10px 0 16px;
-        overflow-x: auto;
-        overflow-y: hidden;
-        scroll-snap-type: x mandatory;
-        scroll-padding: 0;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .ingredients-carousel::-webkit-scrollbar {
-        display: none;
-    }
-
-    .ingredients-carousel .ingredient-card {
-        flex: 0 0 100%;
-        width: 100%;
-        min-width: 0;
-        box-sizing: border-box;
-        padding: 12px;
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
-    }
-
-    .ingredients-carousel .ingredient-image {
-        display: block;
-        width: 100%;
-        height: clamp(170px, 55vw, 250px);
-        object-fit: cover;
-        margin-bottom: 14px;
-    }
-
-    .ingredients-section .carousel-button {
-        width: 30px;
-        height: 30px;
-        flex: 0 0 30px;
-        padding: 0;
-        border: 1px solid #d8bcb4;
-        border-radius: 50%;
-        background: #ead1d0;
-        color: #49352f;
-        font-family: Arial, sans-serif;
-        font-size: 20px;
-        line-height: 1;
-        cursor: pointer;
-    }
-}
-
-/* INGREDIENTS CAROUSEL — MOBILE RESPONSIVE */
-@media (max-width: 700px) {
-
     .ingredients-section {
         padding-left: 4%;
         padding-right: 4%;
@@ -2112,13 +2054,16 @@ section {
     }
 
     .ingredients-carousel .ingredient-image {
+        display: block;
         width: 100%;
         height: clamp(170px, 55vw, 250px);
         object-fit: cover;
         margin-bottom: 14px;
+        transform: none;
     }
 
-    .ingredients-carousel .ingredient-image:hover {
+    .ingredients-carousel .ingredient-image:hover,
+    .ingredients-carousel .ingredient-image:active {
         transform: none;
     }
 
@@ -2141,12 +2086,19 @@ section {
         width: 32px;
         height: 32px;
         padding: 0;
+        border: 1px solid #d8bcb4;
+        border-radius: 50%;
+        background: #ead1d0;
+        color: #49352f;
+        font-family: Arial, sans-serif;
         font-size: 22px;
         line-height: 1;
+        cursor: pointer;
     }
 }
 
 /* EXTRA SMALL PHONES */
+
 @media (max-width: 380px) {
     .ingredients-section {
         padding-left: 3%;
@@ -2168,14 +2120,21 @@ section {
         padding: 9px;
     }
 }
-    @media (hover: hover) and (pointer: fine) {
+
+/* IMAGE HOVER — DEVICES WITH A MOUSE */
+
+.ingredient-image,
+.review-avatar {
+    transition: transform 0.25s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
     .ingredient-image:hover,
     .review-avatar:hover {
         transform: scale(1.12);
         position: relative;
         z-index: 10;
-}
-
+    }
 /* SHOP GRID ON TABLETS — max-width: 1000px */
 @media (max-width: 1000px) {
     .shop-grid {
