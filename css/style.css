@@ -2276,5 +2276,12 @@ section {
 @media (hover: none), (pointer: coarse) {
     .ingredient-image:hover {
         transform: none;
-    }
+    }0.25);
+}
+
+/* Question quiz position */
+.quiz-question legend {
+    display: block;
+    transform: translateY(30px);
+    margin-bottom: 35px;
 }
