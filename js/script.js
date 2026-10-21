@@ -140,22 +140,6 @@ function moveToIngredient(direction) {
 previousButton.addEventListener("click", () => moveToIngredient("prev"));
 nextButton.addEventListener("click", () => moveToIngredient("next"));
 
-// Enlarge ingredients pics
-const ingredientImages = document.querySelectorAll(".ingredient-image");
-ingredientImages.forEach(function (image) {
-    image.addEventListener("click", function () {
-        image.classList.toggle("image-enlarged");
-    });
-});
-
-// Enlarge reviews pics
-const reviewerImages = document.querySelectorAll(".review-avatar");
-reviewerImages.forEach(function (image) {
-    image.addEventListener("click", function () {
-        image.classList.toggle("avatar-enlarged");
-    });
-});
-
 // Category product filter
 const shopFilters = document.querySelectorAll(".shop-filter");
 const shopProducts = document.querySelectorAll(".shop-card");
