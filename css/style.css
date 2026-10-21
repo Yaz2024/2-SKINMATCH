@@ -1061,9 +1061,9 @@ fieldset {
     letter-spacing: 1px;
 }
 
+/* "Must have" stays as a filter category but is not shown on the photo */
 .product-tag-must {
-    background-color: #49352f;
-    color: #fffaf7;
+    display: none;
 }
 
 .product-ingredient {
@@ -2735,5 +2735,3 @@ fieldset {
         transform: none;
     }
 }
-
-
