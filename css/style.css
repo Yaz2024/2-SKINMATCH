@@ -2278,4 +2278,11 @@ section {
         padding: 25px;
     }
 }
+/* Hover effect only for ingredient images */
+.ingredient-image {
+    transition: transform 0.3s ease;
+}
 
+.ingredient-image:hover {
+    transform: scale(1.05);
+}
