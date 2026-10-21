@@ -1,3 +1,4 @@
+
 // Quiz elements and replies
 const form = document.querySelector("#routine-form");
 const results = document.querySelector("#results");
@@ -35,142 +36,115 @@ const concernLabels = {
 function addResultList(container, heading, steps, numbered = false) {
     const section = document.createElement("div");
     section.className = "routine-group";
+
     const h3 = document.createElement("h3");
     h3.textContent = heading;
+
     const list = document.createElement(numbered ? "ol" : "ul");
+
     steps.forEach(function (step) {
-    const li = document.createElement("li");
-    li.textContent = step;
-    list.appendChild(li);
+        const li = document.createElement("li");
+        li.textContent = step;
+        list.appendChild(li);
     });
 
     section.append(h3, list);
     container.appendChild(section);
 }
-    section.append(h3, list);
-    container.appendChild(section);
-}
 
-if (form) {
-    form.addEventListener("submit", function (event) {
-        event.preventDefault();
+form.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-        const skinInput = form.querySelector('input[name="skinType"]:checked');
-        const budgetInput = form.querySelector('input[name="budget"]:checked');
-        const timeInput = form.querySelector('input[name="time"]:checked');
-        const routineInput = form.querySelector('input[name="routine"]:checked');
-        if (!skinInput || !budgetInput || !timeInput || !routineInput) return;
+    const skinInput = form.querySelector('input[name="skinType"]:checked');
+    const budgetInput = form.querySelector('input[name="budget"]:checked');
+    const timeInput = form.querySelector('input[name="time"]:checked');
+    const routineInput = form.querySelector('input[name="routine"]:checked');
+    if (!skinInput || !budgetInput || !timeInput || !routineInput) return;
 
-        const skin = skinInput.value;
-        const budget = budgetInput.value;
-        const time = timeInput.value;
-        const routinePreference = routineInput.value;
-        const concerns = [...form.querySelectorAll('input[name="concerns"]:checked')]
-            .map(input => input.value);
-            
-        // Controllo di sicurezza sull'input allergie per evitare TypeError
-        const allergiesInput = form.querySelector("#allergies");
-        const allergies = allergiesInput ? allergiesInput.value.trim() : "";
+    const skin = skinInput.value;
+    const budget = budgetInput.value;
+    const time = timeInput.value;
+    const routinePreference = routineInput.value;
+    const concerns = [...form.querySelectorAll('input[name="concerns"]:checked')]
+        .map(input => input.value);
+    const allergies = form.querySelector("#allergies").value.trim();
 
-        const profile = profiles[skin] || profiles.unsure;
-        if (title) title.textContent = profile.title;
-        if (description) description.textContent = profile.description;
-        if (recommendations) recommendations.replaceChildren();
+    const profile = profiles[skin] || profiles.unsure;
+    title.textContent = profile.title;
+    description.textContent = profile.description;
+    recommendations.replaceChildren();
 
-        const ingredients = [...new Set([
-            ...profile.ingredients,
-            ...concerns.flatMap(concern => concernIngredients[concern] || [])
-        ])];
+    const ingredients = [...new Set([
+        ...profile.ingredients,
+        ...concerns.flatMap(concern => concernIngredients[concern] || [])
+    ])];
 
-        addResultList(recommendations, "Ingredients to explore",
-            ingredients.length ? ingredients : ["Begin with gentle, basic products while you learn about your skin."]);
+    addResultList(recommendations, "Ingredients to explore",
+        ingredients.length ? ingredients : ["Begin with gentle, basic products while you learn about your skin."]);
 
-        // Time limits the number of steps; routine preference sets the preferred complexity.
-        const levels = { minimal: 0, beginner: 0, regular: 1, advanced: 2 };
-        const timeLimits = { quick: 0, medium: 1, long: 2 };
-        const level = Math.min(levels[routinePreference] ?? 0, timeLimits[time] ?? 0);
-        const routineName = ["Minimal", "Regular", "Multi-step"][level];
+    // Time limits the number of steps; routine preference sets the preferred complexity.
+    const levels = { minimal: 0, beginner: 0, regular: 1, advanced: 2 };
+    const timeLimits = { quick: 0, medium: 1, long: 2 };
+    const level = Math.min(levels[routinePreference] ?? 0, timeLimits[time] ?? 0);
+    const routineName = ["Minimal", "Regular", "Multi-step"][level];
 
-        // Use one gentle serum suggestion; leave strong active ingredients as optional treatments.
-        const gentleOptions = ingredients.filter(name =>
-            !name.includes("Salicylic") && !name.includes("Glycolic") && name !== "Retinol"
-        );
-        const serum = gentleOptions[0] || (skin === "unsure" ? "a simple hydrating serum" : "a gentle hydrating serum");
-        const exfoliationSuggested = skin === "oily" || skin === "combination" ||
-            concerns.includes("blemishes") || concerns.includes("pores");
+    // Use one gentle serum suggestion; leave strong active ingredients as optional treatments.
+    const gentleOptions = ingredients.filter(name =>
+        !name.includes("Salicylic") && !name.includes("Glycolic") && name !== "Retinol"
+    );
+    const serum = gentleOptions[0] || (skin === "unsure" ? "a simple hydrating serum" : "a gentle hydrating serum");
+    const exfoliationSuggested = skin === "oily" || skin === "combination" ||
+        concerns.includes("blemishes") || concerns.includes("pores");
 
-        let morning = [];
-        let evening = [];
-        if (level === 0) {
-            morning = ["Gentle cleanser", "Moisturiser with broad-spectrum SPF 30+ (or moisturiser followed by SPF 30+)"];
-            evening = ["Gentle cleanser", "Hydrating moisturiser"];
-        } else if (level === 1) {
-            morning = ["Gentle cleanser", `Serum to explore: ${serum}`, "Hydrating moisturiser", "Broad-spectrum SPF 30+"];
-            evening = ["Gentle cleanser", "Hydrating moisturiser"];
-        } else {
-            morning = [skin === "dry" || skin === "sensitive" ? "Gentle cleanser" : "Gentle gel or mousse cleanser", `Serum to explore: ${serum}`, "Optional eye cream", "Hydrating moisturiser", "Broad-spectrum SPF 30+"];
-            evening = ["Gentle cleanser (double cleansing only when useful and tolerated)", "Serum to explore according to your skin goals", "Optional eye cream", "Hydrating moisturiser"];
-            if (skin === "dry") {
-                morning.splice(2, 0, "Optional Vitamin C serum, if your skin tolerates it");
-                evening.splice(2, 0, "Optional peptide serum for dry skin");
-            }
-            if (exfoliationSuggested) evening.splice(1, 0, "Optional acid exfoliation on selected evenings, not every day");
+    let morning = [];
+    let evening = [];
+    if (level === 0) {
+        morning = ["Gentle cleanser", "Moisturiser with broad-spectrum SPF 30+ (or moisturiser followed by SPF 30+)"];
+        evening = ["Gentle cleanser", "Hydrating moisturiser"];
+    } else if (level === 1) {
+        morning = ["Gentle cleanser", `Serum to explore: ${serum}`, "Hydrating moisturiser", "Broad-spectrum SPF 30+"];
+        evening = ["Gentle cleanser", "Hydrating moisturiser"];
+    } else {
+        morning = [skin === "dry" || skin === "sensitive" ? "Gentle cleanser" : "Gentle gel or mousse cleanser", `Serum to explore: ${serum}`, "Optional eye cream", "Hydrating moisturiser", "Broad-spectrum SPF 30+"];
+        evening = ["Gentle cleanser (double cleansing only when useful and tolerated)", "Serum to explore according to your skin goals", "Optional eye cream", "Hydrating moisturiser"];
+        if (skin === "dry") {
+            morning.splice(2, 0, "Optional Vitamin C serum, if your skin tolerates it");
+            evening.splice(2, 0, "Optional peptide serum for dry skin");
         }
-    addResultList(recommendations, `Your ${routineName.toLowerCase()} morning routine`, morning, true);
+        if (exfoliationSuggested) evening.splice(1, 0, "Optional acid exfoliation on selected evenings, not every day");
+    }
+   addResultList(recommendations, `Your ${routineName.toLowerCase()} morning routine`, morning,
+    true
+);
 
-        addResultList(recommendations, `Your ${routineName.toLowerCase()} evening routine` , evening, true);
+addResultList(recommendations, `Your ${routineName.toLowerCase()} evening routine`, evening,
+    true
+);
+    if (concerns.length) {
+        addResultList(recommendations, "Your selected concerns",
+            concerns.map(concern => `${concernLabels[concern]}: ${(concernIngredients[concern] || []).join(", ")}`));
+    }
 
-        if (concerns.length) {
-            addResultList(recommendations, "Your selected concerns",
-                concerns.map(concern => `${concernLabels[concern] || concern}: ${(concernIngredients[concern] || []).join(", ")}`));
-        }
+    const notes = [];
+    if (level === 0 && exfoliationSuggested) notes.push("If you have oily skin or blemishes, optional exfoliation can be considered occasionally, not as an essential daily step.");
+    if (budget === "under40") notes.push("Budget: focus on affordable essentials before adding extra treatments.");
+    if (time === "quick" && level === 0) notes.push("Your routine has been kept short to fit 5 minutes or less.");
+    if (skin === "sensitive") notes.push("For sensitive skin, introduce new ingredients cautiously and prioritise gentle formulas.");
+    if (ingredients.includes("Retinol")) notes.push("Retinol is an optional night-time treatment, not a required step. Avoid retinoids during pregnancy; seek professional guidance when appropriate.");
+    if (ingredients.some(name => name.includes("Salicylic") || name.includes("Glycolic"))) notes.push("Acid exfoliants are optional, should be introduced gradually, and should not all be layered together. Daily sunscreen is important.");
+    if (allergies) notes.push(`You listed ingredients to avoid: ${allergies}. These entries have NOT been automatically checked against product formulas; verify ingredient labels before use.`);
+    if (notes.length) addResultList(recommendations, "Important notes", notes);
 
-        const notes = [];
-        if (level === 0 && exfoliationSuggested) notes.push("If you have oily skin or blemishes, optional exfoliation can be considered occasionally, not as an essential daily step.");
-        if (budget === "under40") notes.push("Budget: focus on affordable essentials before adding extra treatments.");
-        if (time === "quick" && level === 0) notes.push("Your routine has been kept short to fit 5 minutes or less.");
-        if (skin === "sensitive") notes.push("For sensitive skin, introduce new ingredients cautiously and prioritise gentle formulas.");
-        if (ingredients.includes("Retinol")) notes.push("Retinol is an optional night-time treatment, not a required step. Avoid retinoids during pregnancy; seek professional guidance when appropriate.");
-        if (ingredients.some(name => name.includes("Salicylic") || name.includes("Glycolic"))) notes.push("Acid exfoliants are optional, should be introduced gradually, and should not all be layered together. Daily sunscreen is important.");
-        if (allergies) notes.push(`You listed ingredients to avoid: ${allergies}. These entries have NOT been automatically checked against product formulas; verify ingredient labels before use.`);
-        if (notes.length) addResultList(recommendations, "Important notes", notes);
-
-        if (results) {
-            results.hidden = false;
-            results.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-    });
-}
-
-// [RIPRISTINATO DAL PRIMO CODICE] Auto-scroll tra le domande del quiz
-const quizQuestions = document.querySelectorAll(".quiz-question");
-quizQuestions.forEach(function (question, index) {
-    question.addEventListener("change", function () {
-        const changedInput = question.querySelector("input:checked");
-        if (!changedInput) return;
-
-        setTimeout(function () {
-            if (index < quizQuestions.length - 1) {
-                quizQuestions[index + 1].scrollIntoView({ behavior: "smooth", block: "start" });
-            } else {
-                const submitArea = document.querySelector(".quiz-submit");
-                if (submitArea) {
-                    submitArea.scrollIntoView({ behavior: "smooth", block: "center" });
-                }
-            }
-        }, 300);
-    });
+    results.hidden = false;
+    results.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
-// Retake the quiz
-if (retakeButton) {
-    retakeButton.addEventListener("click", function () {
-        if (form) form.reset();
-        if (results) results.hidden = true;
-        if (recommendations) recommendations.replaceChildren();
-        if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-}
+retakeButton.addEventListener("click", function () {
+    form.reset();
+    results.hidden = true;
+    recommendations.replaceChildren();
+    form.scrollIntoView({ behavior: "smooth", block: "start" });
+});
 
 // Ingredients carousel arrows
 const ingredientCarousel = document.querySelector("#ingredients-carousel");
@@ -178,7 +152,6 @@ const previousButton = document.querySelector("#ingredients-prev");
 const nextButton = document.querySelector("#ingredients-next");
 
 function moveToIngredient(direction) {
-    if (!ingredientCarousel) return;
     const cards = [...ingredientCarousel.querySelectorAll(".ingredient-card")];
     if (!cards.length) return;
 
@@ -219,8 +192,8 @@ function moveToIngredient(direction) {
     });
 }
 
-if (previousButton) previousButton.addEventListener("click", () => moveToIngredient("prev"));
-if (nextButton) nextButton.addEventListener("click", () => moveToIngredient("next"));
+previousButton.addEventListener("click", () => moveToIngredient("prev"));
+nextButton.addEventListener("click", () => moveToIngredient("next"));
 
 // Category product filter
 const shopFilters = document.querySelectorAll(".shop-filter");
@@ -248,19 +221,17 @@ const newsletterForm = document.querySelector("#newsletter-form");
 const newsletterEmail = document.querySelector("#newsletter-email");
 const newsletterMessage = document.querySelector("#newsletter-message");
 
-if (newsletterForm) {
-    newsletterForm.addEventListener("submit", function (event) {
-        event.preventDefault();
+newsletterForm.addEventListener("submit", function (event) {
+    event.preventDefault();
 
-        if (newsletterEmail && !newsletterEmail.checkValidity()) {
-            newsletterEmail.reportValidity();
-            return;
-        }
+    if (!newsletterEmail.checkValidity()) {
+        newsletterEmail.reportValidity();
+        return;
+    }
 
-        if (newsletterMessage) newsletterMessage.textContent = "Thank you for joining the SkinMatch community!";
-        newsletterForm.reset();
-    });
-}
+    newsletterMessage.textContent = "Thank you for joining the SkinMatch community!";
+    newsletterForm.reset();
+});
 
 // Cart elements
 const cartButton = document.querySelector("#cart-button");
@@ -284,28 +255,23 @@ const cart = [];
 
 // Open and close cart
 function openCart() {
-    if (cartPanel) {
-        cartPanel.classList.add("is-open");
-        cartPanel.setAttribute("aria-hidden", "false");
-    }
-    if (cartOverlay) cartOverlay.hidden = false;
+    cartPanel.classList.add("is-open");
+    cartOverlay.hidden = false;
+    cartPanel.setAttribute("aria-hidden", "false");
 }
 
 function closeCart() {
-    if (cartPanel) {
-        cartPanel.classList.remove("is-open");
-        cartPanel.setAttribute("aria-hidden", "true");
-    }
-    if (cartOverlay) cartOverlay.hidden = true;
+    cartPanel.classList.remove("is-open");
+    cartOverlay.hidden = true;
+    cartPanel.setAttribute("aria-hidden", "true");
 }
 
-if (cartButton) cartButton.addEventListener("click", openCart);
-if (cartClose) cartClose.addEventListener("click", closeCart);
-if (cartOverlay) cartOverlay.addEventListener("click", closeCart);
+cartButton.addEventListener("click", openCart);
+cartClose.addEventListener("click", closeCart);
+cartOverlay.addEventListener("click", closeCart);
 
 // Update cart and totals
 function updateCart() {
-    if (!cartItems) return;
     cartItems.innerHTML = "";
 
     if (cart.length === 0) {
@@ -347,8 +313,8 @@ function updateCart() {
         cartItems.appendChild(row);
     });
 
-    if (cartCount) cartCount.textContent = itemCount;
-    if (cartTotal) cartTotal.textContent = "€" + total.toFixed(2);
+    cartCount.textContent = itemCount;
+    cartTotal.textContent = "€" + total.toFixed(2);
 }
 
 // Add product to bag
@@ -380,10 +346,8 @@ document.querySelectorAll(".product-button").forEach(function (button) {
 });
 
 // Demo checkout
-if (checkoutButton) {
-    checkoutButton.addEventListener("click", function () {
-        alert("Thank you! Your checkout is a demo, but stay tuned in the future!");
-    });
-}
+checkoutButton.addEventListener("click", function () {
+    alert("Thank you! Your checkout is a demo, but stay tuned in the future!");
+});
 
 updateCart();
