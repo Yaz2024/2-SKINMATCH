@@ -1,5 +1,5 @@
-/*GENERALS */
-{
+/* GENERAL STYLES */
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -777,27 +777,14 @@ section {
     height: 190px;
     display: block;
     object-fit: cover;
-    cursor: pointer;
+    cursor: default;
     position: relative;
     border-radius: 10px;
-    transition: transform 0.3s ease;
+    transition: none;
     margin-bottom: 14px;
 
 }
-/* IMAGE HOVER — DESKTOP ONLY */
-
-.ingredient-image,
-.review-avatar {
-    transition: transform 0.25s ease;
-}
-
-.ingredient-image {
-    cursor: default;
-}
-
-.review-avatar {
-    cursor: default;
-}
+/* Image enlargement effects disabled for now. */
 
 .carousel-button {
     width: 44px;
@@ -1056,43 +1043,7 @@ section {
     transition: transform 0.25s ease;
 }
 
-.review-avatar.avatar-enlarged {
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    z-index: 9999 !important;
-    width: auto !important;
-    height: auto !important;
-    max-width: 88vw !important;
-    max-height: 82vh !important;
-    border-radius: 10px !important;
-    object-fit: contain !important;
-    margin: 0 !important;
-    padding: 6px !important;
-    background: #fffaf7;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
-    transform: translate(-50%, -50%) !important;
-    cursor: zoom-out;
-}
-
-.ingredient-image.image-enlarged {
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    z-index: 9999 !important;
-    width: auto !important;
-    height: auto !important;
-    max-width: 88vw !important;
-    max-height: 82vh !important;
-    object-fit: contain !important;
-    margin: 0 !important;
-    padding: 6px !important;
-    background: #fffaf7;
-    border-radius: 10px !important;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3) !important;
-    transform: translate(-50%, -50%) !important;
-    cursor: zoom-out;
-}
+/* Image click-enlargement styles removed: images stay in their layout. */
 
 .review-card h3 {
     margin: 0 0 14px;
@@ -1963,8 +1914,9 @@ section {
         width: 22px;
         height: 22px;
         flex-shrink: 0;
+    }
 }
-    
+
 /* GENERAL MOBILE LAYOUT — max-width: 700px */
 @media (max-width: 700px) {
     .hero {
@@ -2128,13 +2080,8 @@ section {
     transition: transform 0.25s ease;
 }
 
-@media (hover: hover) and (pointer: fine) {
-    .ingredient-image:hover,
-    .review-avatar:hover {
-        transform: scale(1.12);
-        position: relative;
-        z-index: 10;
-    }
+/* Image enlargement effects are disabled for now. */
+
 /* SHOP GRID ON TABLETS — max-width: 1000px */
 @media (max-width: 1000px) {
     .shop-grid {
@@ -2317,6 +2264,7 @@ section {
         padding: 25px;
     }
 }
+
 
 
 
