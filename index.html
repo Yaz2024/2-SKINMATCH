@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +10,6 @@
     <script src="js/script.js" defer></script>
 </head>
 <body>
-    <!-- Header and navigation -->  
     <header class="site-header" id="top">
         <a href="#home" class="logo" aria-label="SkinMatch home">
             <span class="logo-initial">S</span><span class="logo-rest">kin</span><span class="logo-initial">M</span><span class="logo-rest">atch</span><span class="logo-dot">.</span>
@@ -24,20 +24,19 @@
             <a href="#CONTACTS">CONTACTS</a>
         </nav>
 
-      <a href="#quiz" class="header-cta">
-    FIND YOUR MATCH<span class="button-arrow" aria-hidden="true">↗︎</span>
-</a>
+        <a href="#quiz" class="header-cta">
+            FIND YOUR MATCH <span class="button-arrow" aria-hidden="true">↗︎</span>
+        </a>
+
         <button class="cart-button" id="cart-button" type="button" aria-label="Open shopping bag">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M6 7h12l1 14H5L6 7Z"></path>
-                <pa d="M9 7a3 3 0 0 1 6 0"></pa
-                    th>
+                <path d="M9 7a3 3 0 0 1 6 0"></path>
             </svg>
             <span class="cart-count" id="cart-count">0</span>
         </button>
     </header>
 
-    <!-- Shopping cart panel -->
     <div class="cart-overlay" id="cart-overlay" hidden></div>
 
     <aside class="cart-panel" id="cart-panel" aria-labelledby="cart-title" aria-hidden="true">
@@ -58,17 +57,17 @@
     </aside>
 
     <main>
-        <!-- Hero section -->
         <section class="hero" id="home">
             <div class="hero-content">
                 <p class="eyebrow">YOUR SKINCARE, REIMAGINED</p>
                 <h1>Your skin had a routine.<br>Does it have the <em>right one?</em></h1>
                 <p class="hero-description">Let's find it. Tell us about your habits, lifestyle and skin concerns. We'll build a routine made just for you!</p>
 
-               <a href="#quiz" class="button-primary">
-    <span>BUILD MY ROUTINE</span>
-    <span class="button-arrow" aria-hidden="true">↗︎</span>
-</a>
+                <a href="#quiz" class="button-primary">
+                    <span>BUILD MY ROUTINE</span>
+                    <span class="button-arrow" aria-hidden="true">↗︎</span>
+                </a>
+
                 <p class="hero-note">Your skin. Your lifestyle. Your match.</p>
             </div>
 
@@ -80,35 +79,25 @@
             </div>
         </section>
 
-        
+        <section class="intro-section" id="discover">
+            <div class="intro-content">
+                <p class="eyebrow">SKINCARE, BUT MAKE IT UNIQUE</p>
+                <h2>Meet your skin.<br><em>Find your match.</em></h2>
+                <p class="intro-description">
+                    Skincare is not universal. Your skin has its own needs,
+                    your lifestyle has its own rhythm, and your routine should reflect both.
+                </p>
+                <a href="#quiz" class="intro-button">
+                    MEET YOUR SKIN
+                    <span class="intro-button-arrow" aria-hidden="true"></span>
+                </a>
+            </div>
 
-<!-- Introduction -->
-<section class="intro-section" id="discover">
+            <div class="intro-image">
+                <img src="images/skincare-routine.jpg" alt="Skincare products in a soft, natural setting">
+            </div>
+        </section>
 
-    <div class="intro-content">
-        <p class="eyebrow">SKINCARE, BUT MAKE IT UNIQUE</p>
-
-        <h2>Meet your skin.<br><em>Find your match.</em></h2>
-
-        <p class="intro-description">
-            Skincare is not universal. Your skin has its own needs,
-            your lifestyle has its own rhythm, and your routine should reflect both.
-        </p>
-
-        <a href="#quiz" class="intro-button">
-            MEET YOUR SKIN
-            <span class="intro-button-arrow" aria-hidden="true"></span>
-        </a>
-    </div>
-
-    <div class="intro-image">
-        <img src="images/skincare-routine.jpg" alt="Skincare products in a soft, natural setting">
-    </div>
-
-</section>
-
-
-        <!-- How it works -->
         <section class="steps-section" id="how-it-works">
             <div class="steps-intro">
                 <div>
@@ -156,7 +145,6 @@
             </div>
         </section>
 
-        <!-- Skin quiz -->
         <section class="quiz-section" id="quiz">
             <div class="quiz-intro">
                 <p class="eyebrow">LET'S GET PERSONAL</p>
@@ -186,7 +174,7 @@
                         <label class="option-card"><input type="checkbox" name="concerns" value="uneven-tone"><span>Uneven skin tone</span></label>
                         <label class="option-card"><input type="checkbox" name="concerns" value="redness"><span>Redness</span></label>
                         <label class="option-card"><input type="checkbox" name="concerns" value="pores"><span>Visible pores</span></label>
-                        <label class="option-card"><input type="checkbox" name="concerns" value="glow"><span>Dullness & glow</span></label>
+                        <label class="option-card"><input type="checkbox" name="concerns" value="glow"><span>Dullness &amp; glow</span></label>
                     </div>
                 </fieldset>
 
@@ -233,7 +221,6 @@
                 </div>
             </form>
 
-            <!-- Quiz results -->
             <div id="results" class="results-section" hidden aria-live="polite">
                 <p class="eyebrow">YOUR SKINMATCH PROFILE</p>
                 <h2 id="profile-title">Meet your skin.</h2>
@@ -243,7 +230,6 @@
             </div>
         </section>
 
-        <!-- Ingredients carousel -->
         <section class="ingredients-section" id="ingredients">
             <div class="section-heading">
                 <p class="eyebrow">GET TO KNOW YOUR SKINCARE</p>
@@ -316,7 +302,6 @@
             </div>
         </section>
 
-        <!-- Product shop -->
         <section class="shop-section" id="shop">
             <div class="shop-heading">
                 <p class="eyebrow">YOUR SKINCARE DESTINATION</p>
@@ -382,7 +367,6 @@
                 </article>
             </div>
 
-            <!-- section with cta -->
             <div class="shop-quiz-cta">
                 <p class="eyebrow">NOT SURE WHERE TO START?</p>
                 <h2>LET YOUR SKIN DECIDE</h2>
@@ -391,7 +375,6 @@
             </div>
         </section>
 
-        <!-- Customer reviews -->
         <section class="reviews-section" id="reviews">
             <div class="section-heading">
                 <p class="eyebrow">REAL SKIN, REAL STORIES</p>
@@ -423,8 +406,6 @@
             </div>
         </section>
 
-
-        <!-- Newsletter and final call to action -->
         <section class="final-cta" id="community">
             <div class="cta-main">
                 <p class="eyebrow">YOUR SKIN DESERVES A BETTER MATCH</p>
@@ -450,9 +431,6 @@
             </div>
         </section>
 
-
-
-        <!-- CONTACTS section -->
         <section class="CONTACTS-section" id="CONTACTS">
             <div class="CONTACTS-content">
                 <div class="CONTACTS-intro">
@@ -497,9 +475,6 @@
         </section>
     </main>
 
-
-
-    <!-- Footer -->
     <footer class="site-footer" id="site-footer">
         <div class="footer-main">
             <div class="footer-brand">
@@ -553,7 +528,6 @@
 
         <div class="footer-bottom">
             <p>© 2026 SkinMatch. All rights reserved.</p>
-
             <button class="back-to-top" type="button" aria-label="Back to top" onclick="window.scrollTo({ top: 0, behavior: 'smooth' })">
                 <span>Back to top</span>
                 <span class="back-to-top-arrow" aria-hidden="true">↑</span>
@@ -562,4 +536,3 @@
     </footer>
 </body>
 </html>
-
