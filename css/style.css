@@ -480,7 +480,7 @@ section {
 .quiz-question {
     min-width: 0;
     margin: 0 0 20px;
-    padding: 24px 30px 28px;
+    padding: 28px 30px;
     background: #fffdfa;
     border: 1px solid #e6dcd4;
     border-radius: 14px;
@@ -498,6 +498,7 @@ section {
     line-height: 1.45;
     color: #49352f;
     float: none;
+    transform: none;
     box-sizing: border-box;
 }
 .options-grid {
