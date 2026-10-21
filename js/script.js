@@ -32,18 +32,21 @@ const concernLabels = {
     wrinkles: "Wrinkles and fine lines"
 };
 
-function addResultList(container, heading, steps) {
-    if (!container) return;
+function addResultList(container, heading, steps, numbered = false) {
     const section = document.createElement("div");
     section.className = "routine-group";
     const h3 = document.createElement("h3");
     h3.textContent = heading;
-    const list = document.createElement("ul");
+    const list = document.createElement(numbered ? "ol" : "ul");
     steps.forEach(function (step) {
-        const li = document.createElement("li");
-        li.textContent = step;
-        list.appendChild(li);
+    const li = document.createElement("li");
+    li.textContent = step;
+    list.appendChild(li);
     });
+
+    section.append(h3, list);
+    container.appendChild(section);
+}
     section.append(h3, list);
     container.appendChild(section);
 }
@@ -113,8 +116,9 @@ if (form) {
             }
             if (exfoliationSuggested) evening.splice(1, 0, "Optional acid exfoliation on selected evenings, not every day");
         }
-        addResultList(recommendations, `Your ${routineName.toLowerCase()} morning routine`, morning);
-        addResultList(recommendations, `Your ${routineName.toLowerCase()} evening routine`, evening);
+    addResultList(recommendations, `Your ${routineName.toLowerCase()} morning routine`, morning, true);
+
+        addResultList(recommendations, `Your ${routineName.toLowerCase()} evening routine` , evening, true);
 
         if (concerns.length) {
             addResultList(recommendations, "Your selected concerns",
