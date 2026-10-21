@@ -478,19 +478,21 @@ section {
     margin: 0 auto;
 }
 .quiz-question {
+    display: block;
     min-width: 0;
     margin: 0 0 20px;
-    padding: 28px 230px;
+    padding: 30px;
     background: #fffdfa;
     border: 1px solid #e6dcd4;
     border-radius: 14px;
     box-sizing: border-box;
 }
 .quiz-question legend {
-    display: block;
-    float: left;
+    display: table;
+    float: none;
+    position: static;
     width: 100%;
-    margin: 0 0 20px 0;
+    margin: 0 0 22px 0;
     padding: 0;
     font-family: Georgia, serif;
     font-size: 22px;
@@ -500,7 +502,6 @@ section {
     box-sizing: border-box;
 }
 .options-grid {
-    clear: both;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
